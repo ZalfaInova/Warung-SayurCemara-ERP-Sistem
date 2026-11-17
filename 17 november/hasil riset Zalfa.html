@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Hasil Riset POS — Warung Sayur Cemara | 17 November 2026</title>
+<style>
+  :root{
+    --hijau:#1b7a43; --hijau-tua:#0d4d2a; --hijau-muda:#e8f5ee;
+    --oranye:#f39c12; --krem:#fdfbf5; --abu:#5a6b60; --garis:#d8e6dd;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{font-family:'Segoe UI',system-ui,-apple-system,sans-serif;background:var(--krem);color:#22332a;line-height:1.5}
+  .page{max-width:1100px;margin:0 auto;background:#fff;box-shadow:0 0 30px rgba(0,0,0,.08)}
+  /* HEADER */
+  header{background:linear-gradient(135deg,var(--hijau-tua),var(--hijau));color:#fff;padding:28px 40px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px}
+  header h1{font-size:24px;letter-spacing:.3px}
+  header h1 span{color:#ffd97a}
+  header .meta{text-align:right;font-size:12px;opacity:.9}
+  .badge{display:inline-block;background:var(--oranye);color:#fff;font-size:11px;font-weight:700;padding:3px 10px;border-radius:20px;margin-bottom:6px}
+  /* SECTION */
+  section{padding:22px 40px;border-bottom:1px solid var(--garis)}
+  h2{font-size:16px;color:var(--hijau-tua);text-transform:uppercase;letter-spacing:1px;margin-bottom:14px;display:flex;align-items:center;gap:8px}
+  h2::before{content:"";width:26px;height:4px;background:var(--oranye);border-radius:2px}
+  /* STATS */
+  .stats{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
+  .stat{background:var(--hijau-muda);border-radius:10px;padding:14px;text-align:center}
+  .stat b{display:block;font-size:22px;color:var(--hijau)}
+  .stat small{font-size:11px;color:var(--abu)}
+  /* MASALAH */
+  .masalah{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+  .kartu{border:1px solid var(--garis);border-left:5px solid var(--oranye);border-radius:8px;padding:12px 14px;background:#fffdf7}
+  .kartu b{color:var(--hijau-tua);font-size:13.5px}
+  .kartu p{font-size:12px;color:var(--abu);margin-top:4px}
+  /* TABEL */
+  table{width:100%;border-collapse:collapse;font-size:12.5px}
+  th{background:var(--hijau);color:#fff;padding:9px 10px;text-align:left;font-size:11.5px;text-transform:uppercase;letter-spacing:.5px}
+  td{padding:8px 10px;border-bottom:1px solid var(--garis);vertical-align:top}
+  tr:nth-child(even) td{background:#f7fbf8}
+  .tag{display:inline-block;font-size:10px;font-weight:700;padding:2px 8px;border-radius:12px}
+  .tag.idn{background:#e0f0ff;color:#1a6fb5}
+  .tag.gl{background:#fdeadd;color:#c05a1e}
+  .tag.gratis{background:#e5f5e8;color:var(--hijau)}
+  /* REKOMENDASI */
+  .reko{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+  .reko .kartu{border-left-color:var(--hijau)}
+  /* SUMBER */
+  .sumber{columns:2;column-gap:30px;font-size:11px;color:var(--abu)}
+  .sumber li{margin:0 0 5px 16px;break-inside:avoid}
+  footer{background:var(--hijau-tua);color:#cfe6d8;font-size:11px;text-align:center;padding:12px}
+</style>
+</head>
+<body>
+<div class="page">
+
+  <header>
+    <div>
+      <span class="badge">RISET PASAR — ONE PAGE SUMMARY</span>
+      <h1>🏆 10 Market Leader <span>Software POS</span> untuk Warung Sayur</h1>
+      <div style="font-size:13px;opacity:.9">Analisis untuk pengembangan <b>ERP Warung Sayur Cemara</b></div>
+    </div>
+    <div class="meta">
+      📅 17 November 2026<br>
+      👤 Riset oleh: Zalfa<br>
+      📚 10 sumber · riset via browser
+    </div>
+  </header>
+
+  <section>
+    <h2>Gambaran Pasar Sekilas</h2>
+    <div class="stats">
+      <div class="stat"><b>189.000</b><small>lokasi dipakai Toast POS (2026)</small></div>
+      <div class="stat"><b>1 juta+</b><small>pengguna Qasir di 514 kota/kab Indonesia</small></div>
+      <div class="stat"><b>45.000+</b><small>pebisnis pakai Moka, 21,6T+ transaksi</small></div>
+      <div class="stat"><b>~40.000</b><small>data titik food loss di database FAO (167 negara)</small></div>
+    </div>
+  </section>
+
+  <section>
+    <h2>Permasalahan Kunci Warung Sayur (kenapa butuh POS/ERP)</h2>
+    <div class="masalah">
+      <div class="kartu"><b>🥬 Stok mudah busuk (perishable)</b><p>Sayur punya usia simpan 1–3 hari. Tanpa pencatatan stok harian & alert stok menipis, kerugian sisa sayur (food loss) sulit diukur — FAO mencatat food loss terjadi di sepanjang rantai pasok segar.</p></div>
+      <div class="kartu"><b>📝 Pembukuan manual "kira-kira"</b><p>Studi kasus Qasir: pemilik kedai baru sadar kebocoran uang setelah mencatat otomatis — kas keluar dadakan, selisih stok chiller, dan biaya rutin yang naik diam-diam.</p></div>
+      <div class="kartu"><b>📶 Internet tidak stabil</b><p>Warung sering kehilangan sinyal. Loyverse, Qasir, dan iREAP menonjolkan mode offline — transaksi tetap tercatat lalu tersinkron saat online kembali.</p></div>
+    </div>
+  </section>
+
+  <section>
+    <h2>10 Market Leader POS — Perbandingan</h2>
+    <table>
+      <tr><th>#</th><th>POS</th><th>Asal</th><th>Skala & Pengguna</th><th>Fitur Relevan untuk Warung Sayur</th><th>Harga Masuk*</th></tr>
+      <tr><td>1</td><td><b>Square POS</b></td><td><span class="tag gl">Global</span></td><td>450rb+ penjual F&B global; Capterra 4,6/5</td><td>POS + inventaris + analitik, ekosistem hardware lengkap, AI</td><td>Gratis (biaya procesing transaksi)</td></tr>
+      <tr><td>2</td><td><b>Toast POS</b></td><td><span class="tag gl">Global</span></td><td>189.000 lokasi (Q3 2026); Capterra 4,1/5</td><td>Mode offline, forecasting AI, sync inventaris instan, retail grocery</td><td>Mulai $0 (perangkat pertama)</td></tr>
+      <tr><td>3</td><td><b>Loyverse</b></td><td><span class="tag gl">Global</span></td><td>350rb+ merchant, 170 negara; Capterra 4,8/5 (94% rekomendasi)</td><td>POS gratis, inventaris real-time + alert stok, offline, multi-toko, support bahasa Indonesia</td><td><span class="tag gratis">Gratis</span> (add-on berbayar)</td></tr>
+      <tr><td>4</td><td><b>Moka (GoTo)</b></td><td><span class="tag idn">Indonesia</span></td><td>45.000+ bisnis, 200+ area, 10+ tahun</td><td>Manajemen stok antar outlet, laporan real-time, integrasi GoPay & GoFood, GoStore toko online</td><td>Rp299rb/bln/outlet</td></tr>
+      <tr><td>5</td><td><b>Qasir</b></td><td><span class="tag idn">Indonesia</span></td><td>1 juta+ pengguna, 514 kota/kab</td><td>Fokus warung/kedai, harga modal & laba harian, kas keluar, riwayat stok per orang, offline, nota via WhatsApp</td><td>Rp699rb/12bln (~Rp1.900/hari)</td></tr>
+      <tr><td>6</td><td><b>Olsera</b></td><td><span class="tag idn">Indonesia</span></td><td>85.000+ usaha, 500+ kota, 5T+ penjualan/bln</td><td>Inventori + supply chain, QRIS & 50+ kurir, sertifikasi ISO 27001/27701, support 24/7</td><td>Free tier tersedia</td></tr>
+      <tr><td>7</td><td><b>iREAP POS</b></td><td><span class="tag idn">Indonesia</span></td><td>500.000+ bisnis, 100+ negara</td><td>Lite gratis offline; Pro: multi-cabang, salesman GPS, transfer stok antar toko, QRIS, HPP</td><td>Lite gratis; Pro Rp42rb–99rb/bln</td></tr>
+      <tr><td>8</td><td><b>Majoo</b></td><td><span class="tag idn">Indonesia</span></td><td>Salah satu POS terbesar RI (didukung investor besar)</td><td>POS multi-industri, inventaris, promosi — situs sedang gangguan saat riset (522)</td><td>Berlangganan</td></tr>
+      <tr><td>9</td><td><b>Lightspeed Retail</b></td><td><span class="tag gl">Global</span></td><td>Capterra 4,0/5 (976 ulasan)</td><td>POS ritel cloud canggih, laporan bawaan, manajemen multi-lokasi</td><td>Berlangganan (tinggi)</td></tr>
+      <tr><td>10</td><td><b>Epos Now / Clover</b></td><td><span class="tag gl">Global</span></td><td>Capterra masing-masing 3,8/5</td><td>POS cloud all-in-one, pembayaran terintegrasi — pemain menengah global</td><td>Berlangganan + hardware</td></tr>
+    </table>
+    <p style="font-size:10.5px;color:var(--abu);margin-top:8px">*Harga sesuai situs resmi per 17 Nov 2026. Sumber ulasan: Capterra (2,5 juta+ ulasan terverifikasi).</p>
+  </section>
+
+  <section>
+    <h2>Rekomendasi untuk ERP Warung Sayur Cemara</h2>
+    <div class="reko">
+      <div class="kartu"><b>1️⃣ Contoh model terbukti: Loyverse + Qasir</b><p>POS gratis/freemium, ringan, offline-first, dan berfokus pada warung. Pelajari alur "harga modal → laba harian" dan "alert stok menipis" milik mereka.</p></div>
+      <div class="kartu"><b>2️⃣ Celah pasar: modul perishable</b><p>Tidak satu pun dari 10 pemain punya modul khusus umur simpan sayur (FEFO, estimasi sisa hari, diskon otomatis mendekati kedaluwarsa). Ini pembeda unik ERP kita.</p></div>
+      <div class="kartu"><b>3️⃣ Ukur food loss sejak hari pertama</b><p>Terinspirasi database FAO: catat susut/sisa sayur harian sebagai data terstruktur, agar warung bisa menghitung % kerugian dan memperbaiki pola pesanan.</p></div>
+    </div>
+  </section>
+
+  <section>
+    <h2>📚 Daftar Sumber (10)</h2>
+    <ol class="sumber">
+      <li>Square — squareup.com (POS global, hardware & ekosistem) — diakses via browser, 17 Nov 2026</li>
+      <li>Loyverse — loyverse.com (POS gratis, 350rb merchant, fitur inventaris & offline)</li>
+      <li>Toast — toasttab.com (189rb lokasi, Toast IQ AI, mode offline)</li>
+      <li>Moka POS — mokapos.com (POS Indonesia, 45rb+ bisnis, harga & FAQ resmi)</li>
+      <li>Qasir — qasir.id (aplikasi kasir warung, studi kasus pembukuan, 1jt+ pengguna)</li>
+      <li>Olsera — olsera.com (85rb+ usaha, ISO 27001/27701, fitur supply chain)</li>
+      <li>iREAP POS — ireappos.com (500rb+ bisnis, perbandingan Lite vs Pro)</li>
+      <li>Capterra — capterra.com/point-of-sale-software (direktori & rating POS, buyer's guide)</li>
+      <li>FAO — fao.org/food-loss-and-food-waste/flw-data (database food loss & waste global)</li>
+      <li>Majoo — majoo.com (posisi pasar POS Indonesia; situs error 522 saat riset)</li>
+    </ol>
+  </section>
+
+  <footer>
+    One Page Summary — Riset Market Leader POS untuk Warung Sayur · Disusun untuk proyek ERP Warung Sayur Cemara · 17 November 2026
+  </footer>
+</div>
+</body>
+</html>
