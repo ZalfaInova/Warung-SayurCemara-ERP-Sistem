@@ -1,0 +1,19 @@
+{
+  "name": "warung-sayur-erp-scm-crm",
+  "type": "module",
+  "version": "1.0.0",
+  "description": "Sistem Informasi ERP-SCM-CRM untuk UMKM Warung Sayur (Node.js + Express + SQLite via sql.js)",
+  "main": "server.js",
+  "scripts": {
+    "init": "node init-db.js",
+    "start": "node server.js",
+    "dev": "node server.js"
+  },
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^4.19.2",
+    "multer": "^1.4.5-lts.1",
+    "node-cron": "^3.0.3",
+    "sql.js": "^1.10.0"
+  }
+}

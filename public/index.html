@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Warung Sayur Cemara — ERP · SCM · CRM</title>
+<link rel="stylesheet" href="css/style.css">
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+
+<!-- ============ LOGIN / ROLE SWITCHER ============ -->
+<div id="view-login" class="view">
+  <div class="login-card">
+    <div class="brand"><span class="dot"></span>Warung Sayur Cemara</div>
+    <h2>Masuk ke Sistem</h2>
+    <div class="input-group">
+      <label>Email</label>
+      <input type="email" id="lgEmail" placeholder="owner@warungsayur.com" value="owner@warungsayur.com">
+    </div>
+    <div class="input-group">
+      <label>Password</label>
+      <input type="password" id="lgPass" placeholder="••••••••" value="owner123">
+    </div>
+    <div class="input-group">
+      <label>Role</label>
+      <select id="lgRole">
+        <option value="Owner">Owner</option>
+        <option value="Staf">Staf / Kasir</option>
+        <option value="Konsumen">Konsumen</option>
+      </select>
+    </div>
+    <button class="btn btn-primary" onclick="app.login()">Masuk</button>
+    <div class="hint">Demo: owner@warungsayur.com / owner123 (Owner) | staf@warungsayur.com / staf123 (Staf)</div>
+  </div>
+</div>
+
+<!-- ============ MAIN APP ============ -->
+<div id="view-app" class="view hidden">
+  <nav class="navbar">
+    <div class="brand"><span class="dot"></span>Warung Sayur Cemara</div>
+    <div class="nav-links" id="navLinks"></div>
+    <div class="user-chip" id="userChip"></div>
+  </nav>
+
+  <aside class="sidebar" id="sidebar"></aside>
+
+  <main class="content" id="content"></main>
+</div>
+
+<!-- ============ VIEW: DASHBOARD (Owner & Staf) ============ -->
+<div id="view-dashboard" class="view hidden">
+  <div class="header-title">
+    <h2>Dashboard Bisnis</h2>
+    <div class="actions">
+      <button class="btn btn-ghost btn-sm" onclick="app.loadDashboard()">Segarkan</button>
+      <button class="btn btn-ghost btn-sm" onclick="app.runWilting()">Cek Stok Layam</button>
+    </div>
+  </div>
+  <div class="grid grid-4">
+    <div class="card stat-card"><div class="stat-cap">Pendapatan 7 Hari</div><div class="stat" id="statRevenue">Rp0</div></div>
+    <div class="card stat-card"><div class="stat-cap">Total Pesanan</div><div class="stat" id="statOrders">0</div></div>
+    <div class="card stat-card"><div class="stat-cap">Kasir Terbaik</div><div class="stat" id="statCashier" style="font-size:18px">-</div></div>
+    <div class="card stat-card"><div class="stat-cap">Produk Terlaris</div><div class="stat" id="statProduct" style="font-size:18px">-</div></div>
+  </div>
+  <div class="grid grid-2">
+    <div class="card"><div class="section"><h3>📈 Omzet Harian</h3><canvas id="chSales" class="chart-wrap"></canvas></div></div>
+    <div class="card"><div class="section"><h3>🥦 Produk Paling Laku</h3><canvas id="chProd" class="chart-wrap"></canvas></div></div>
+  </div>
+  <div class="section"><h3>🩺 Analitik Diagnostik & Cuaca (Semarang)</h3>
+    <div class="card" id="cardWeather" style="padding:16px;">
+      <p id="diagText">Memuat data cuaca...</p>
+      <button class="btn btn-primary btn-sm" style="margin-top:12px" onclick="app.fetchWeather()">Ambil Data Cuaca Terkini</button>
+    </div>
+  </div>
+</div>
+
+<!-- ============ VIEW: INVENTORY ============ -->
+<div id="view-inventory" class="view hidden">
+  <div class="header-title">
+    <h2>Manajemen Persediaan</h2>
+    <button class="btn btn-primary" onclick="app.openProductModal()">+ Tambah Produk</button>
+  </div>
+  <div class="card">
+    <div class="input-group" style="margin-bottom:14px;max-width:400px;display:inline-block;">
+      <input type="text" id="invSearch" placeholder="Cari produk..." onkeyup="app.renderInventory()">
+    </div>
+    <table id="invTable"><thead><tr><th>Barcode</th><th>Nama</th><th>Kategori</th><th>Modal</th><th>Jual</th><th>Stok</th><th>Min</th><th>Status</th><th>Aksi</th></tr></thead><tbody></tbody></table>
+  </div>
+</div>
+
+<!-- ============ VIEW: POS ============ -->
+<div id="view-pos" class="view hidden">
+  <div class="header-title">
+    <h2>Kasir POS</h2>
+    <button class="btn btn-primary" onclick="app.finalizePos()">Buat Faktur</button>
+  </div>
+  <div class="grid grid-2">
+    <div class="card" style="height:70vh;overflow:auto;">
+      <div class="section"><h3>Daftar Produk</h3><div id="posProductList"></div></div>
+    </div>
+    <div class="card">
+      <div class="section"><h3>Keranjang Transaksi</h3>
+        <div id="posCart" style="border:1px solid var(--border);border-radius:10px;padding:10px;height:300px;overflow:auto;"></div>
+        <div style="margin-top:12px;display:flex;justify-content:space-between;font-weight:800;font-size:18px"><span>Total</span><span id="posTotal">Rp0</span></div>
+        <div class="input-group" style="margin-top:12px"><label>Metode Bayar</label><select id="posMethod"><option value="cash">Tunai</option><option value="qris">QRIS</option><option value="gosend">GoSend</option><option value="grab">GrabMart</option><option value="pickup">Ambil di Toko</option></select></div>
+        <div class="input-group" id="pickupBox" style="margin-top:12px;display:none"><label>Waktu Ambil</label><input type="datetime-local" id="posPickup"></div>
+        <div class="input-group" id="custBox" style="margin-top:12px;display:none"><label>Pelanggan</label><input type="text" id="posCustomer" placeholder="Nama pelanggan (opsional)"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ============ VIEW: CATALOG (Konsumen) ============ -->
+<div id="view-catalog" class="view hidden">
+  <div class="header-title">
+    <h2>Produk Segar Warung Sayur</h2>
+    <a class="btn btn-ghost" href="https://wa.me/" target="_blank" id="waBtn" style="color:#fff">💬 Customer Service WhatsApp</a>
+  </div>
+  <div class="input-group" style="max-width:400px;display:inline-block;margin-bottom:14px;">
+    <input type="text" id="catSearch" placeholder="Cari produk..." onkeyup="app.renderCatalog()">
+  </div>
+  <div style="display:flex;gap:8px;overflow-x:auto;margin-bottom:16px;padding-bottom:6px;">
+    <button class="btn btn-ghost btn-sm active" onclick="app.filterCat('all')">Semua</button>
+    <button class="btn btn-ghost btn-sm" onclick="app.filterCat('c1')">Sayuran</button>
+    <button class="btn btn-ghost btn-sm" onclick="app.filterCat('c5')">Sembako</button>
+    <button class="btn btn-ghost btn-sm" onclick="app.filterCat('c6')">Buah</button>
+    <button class="btn btn-ghost btn-sm" onclick="app.filterSale()">🔥 On Sale</button>
+  </div>
+  <div class="grid grid-4" id="catProductList"></div>
+  <div id="cartSlide" class="cart-slide">
+    <div class="cart-slide-header">
+      <h3>Keranjang (<span id="cartCount">0</span>)</h3>
+      <button class="btn btn-ghost btn-sm" onclick="app.toggleCart()">Tutup</button>
+    </div>
+    <div id="cartItems" style="padding:12px;"></div>
+    <div style="padding:12px;border-top:1px solid var(--border);">
+      <div class="qris-box">
+        <img id="qrisImg" src="" alt="QRIS">
+        <div style="margin-top:10px;font-size:13px;color:var(--muted)">Unggah bukti transfer</div>
+        <input type="file" id="proofFile" accept="image/*" style="margin:8px 0;width:100%;padding:10px;border:1px solid var(--border);border-radius:10px;">
+        <div style="margin-top:10px;font-weight:800">Total: <span id="cartTotal">Rp0</span></div>
+        <button class="btn btn-primary" style="width:100%;margin-top:10px" onclick="app.doCheckout()">Konfirmasi Pembayaran</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ============ VIEW: PROCUREMENT ============ -->
+<div id="view-procurement" class="view hidden">
+  <div class="header-title">
+    <h2>Procure-to-Pay (Pembelian)</h2>
+    <button class="btn btn-primary" onclick="app.openPoModal()">+ Buat PO</button>
+  </div>
+  <div class="card">
+    <table id="poTable"><thead><tr><th>No PO</th><th>Pemasok</th><th>Tanggal</th><th>Status</th><th>Total</th><th>Aksi</th></tr></thead><tbody></tbody></table>
+  </div>
+</div>
+
+<!-- ============ VIEW: SUPPLIERS ============ -->
+<div id="view-suppliers" class="view hidden">
+  <div class="header-title">
+    <h2>Data Pemasok</h2>
+    <button class="btn btn-primary" onclick="app.openSupplierModal()">+ Tambah Pemasok</button>
+  </div>
+  <div class="card">
+    <table id="suppTable"><thead><tr><th>Nama</th><th>Kontak</th><th>Telepon</th><th>Barang</th><th>Lead Time</th><th>Aksi</th></tr></thead><tbody></tbody></table>
+  </div>
+</div>
+
+<!-- ============ VIEW: CUSTOMERS ============ -->
+<div id="view-customers" class="view hidden">
+  <div class="header-title"><h2>Pelanggan & Loyalitas</h2></div>
+  <div class="card">
+    <table id="custTable"><thead><tr><th>Nama</th><th>Telepon</th><th>Kategori</th><th>Segmen</th><th>Total Belanja</th><th>Poin</th></tr></thead><tbody></tbody></table>
+  </div>
+</div>
+
+<!-- ============ VIEW: COMPLAINTS ============ -->
+<div id="view-complaints" class="view hidden">
+  <div class="header-title"><h2>Layanan & Keluhan</h2></div>
+  <div class="card">
+    <table id="compTable"><thead><tr><th>Pelanggan</th><th>Tipe</th><th>Keluhan</th><th>Status</th><th>Aksi</th></tr></thead><tbody></tbody></table>
+  </div>
+</div>
+
+<script src="js/app.js"></script>
+</body>
+</html>
