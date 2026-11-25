@@ -7,7 +7,7 @@
 * **Jenis Usaha:** Ritel sayuran segar dan bahan pangan harian
 * **Target Pelanggan:** Masyarakat sekitar, mahasiswa/penghuni kos di kawasan Tembalang, serta pembeli harian
 * **Jam Operasional:** *07.00 - 20.00*
-* **Kanal Eksisting:** TikTok `@warungsayurcemara`, WhatsApp: *085291957525*
+* **Kontak:** TikTok `@warungsayurcemara`, WhatsApp: *085291957525*
 
 ## Masalah dan Proses Mitra Saat Ini
 
