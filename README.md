@@ -10,3 +10,15 @@ Berdasarkan hasil observasi dan wawancara singkat dengan pihak Warung Sayur Cema
 * **Transaksi Kasir (POS) Konvensional:** Warung belum memiliki sistem Point of Sale (POS) terintegrasi; seluruh pencatatan transaksi dan perhitungan belanja masih dilakukan secara manual.
 * **Penetapan Harga & Informasi Tidak Terpusat:** Penentuan harga jual dilakukan secara manual tanpa label harga fisik di area warung. Pembaruan informasi harga dan promosi hanya diunggah melalui akun TikTok mitra.
 * **Alur Pemesanan Terfragmentasi:** Pembelian dilakukan secara langsung di toko. Meskipun mitra sudah memiliki situs web sebelumnya, fungsinya hanya terbatas sebagai katalog produk statis, sementara proses pemesanan tetap dialihkan secara manual melalui pesan WhatsApp.
+
+## Proses Baru dan Ukuran
+
+### Ide Solusi dari Kelompok
+
+#### A. Modul POS, E-Commerce & Self Pick-up (Operasional & CRM)
+
+* **Sistem Pembayaran Fleksibel (Tanpa Wajib *Payment Gateway*):** Mengakomodasi QRIS statis/dinamis milik warung yang sudah ada (cukup unggah gambar QRIS dan konfirmasi bukti bayar/mutasi) serta pembayaran tunai. Integrasi Midtrans bersifat opsional untuk menekan biaya admin transaksi UMKM.
+* **Pemesanan Online & Penjadwalan *Self Pick-up*:** Pelanggan dapat memesan langsung melalui *website* dan mengambil pesanan sendiri di toko (*Self Pick-up*), dilengkapi fitur pemilihan slot waktu pengambilan agar pesanan sudah disiapkan sebelumnya tanpa perlu mengantre lama (tanpa layanan *delivery* maupun kurir pihak ketiga).
+* **Pencatatan Keuangan Internal:** Rekapitulasi otomatis antara pendapatan kotor, HPP (Harga Pokok Penjualan), pengeluaran operasional/kulakan, hingga laba bersih harian.
+
+<!-- lanjut di sini -->
