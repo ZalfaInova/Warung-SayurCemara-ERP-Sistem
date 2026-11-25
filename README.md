@@ -15,7 +15,9 @@ Berdasarkan hasil observasi dan wawancara singkat dengan pihak Warung Sayur Cema
 
 ### Ide Solusi dari Kelompok
 
-#### A. Modul POS, E-Commerce & Self Pick-up (Operasional & CRM)
+#### 1. Spesifikasi Solusi & Pengembangan Fitur
+
+##### A. Modul POS, E-Commerce & Self Pick-up (Operasional & CRM)
 
 * **Sistem Pembayaran Fleksibel (Tanpa Wajib *Payment Gateway*):** Mengakomodasi QRIS statis/dinamis milik warung yang sudah ada (cukup unggah gambar QRIS dan konfirmasi bukti bayar/mutasi) serta pembayaran tunai. Integrasi Midtrans bersifat opsional untuk menekan biaya admin transaksi UMKM.
 * **Pemesanan Online & Penjadwalan *Self Pick-up*:** Pelanggan dapat memesan langsung melalui *website* dan mengambil pesanan sendiri di toko (*Self Pick-up*), dilengkapi fitur pemilihan slot waktu pengambilan agar pesanan sudah disiapkan sebelumnya tanpa perlu mengantre lama (tanpa layanan *delivery* maupun kurir pihak ketiga).
