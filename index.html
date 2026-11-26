@@ -2491,11 +2491,153 @@
       } catch (e) {
         console.warn('Storage save skipped:', e);
       }
+      scheduleCloudSave();
+    }
+
+    // ── Sinkronisasi cloud (Cloudflare D1 via Pages Functions /api/state) ──
+    let cloudRevision = 0;
+    let cloudReady = false;
+    let cloudDirty = false;
+    let cloudTimer = null;
+    let cloudApplying = false;
+
+    function setCloudBadge(mode) {
+      let el = document.getElementById('cloud-sync-badge');
+      if (!el) {
+        el = document.createElement('div');
+        el.id = 'cloud-sync-badge';
+        el.style.cssText =
+          'position:fixed;left:14px;bottom:14px;z-index:70;display:flex;align-items:center;gap:6px;' +
+          'padding:7px 12px;border-radius:999px;font:600 12px/1.2 system-ui,-apple-system,sans-serif;' +
+          'box-shadow:0 6px 20px rgba(0,0,0,.18);transition:opacity .3s;pointer-events:none;';
+        document.body.appendChild(el);
+      }
+      const map = {
+        saving: { text: '☁ Menyimpan…', bg: '#fef3c7', fg: '#92400e' },
+        saved: { text: '☁ Tersimpan di database', bg: '#dcfce7', fg: '#166534' },
+        loading: { text: '☁ Memuat data…', bg: '#e0f2fe', fg: '#075985' },
+        offline: { text: '⚠ Mode lokal (database offline)', bg: '#fee2e2', fg: '#991b1b' },
+      };
+      const s = map[mode] || map.saved;
+      el.textContent = s.text;
+      el.style.background = s.bg;
+      el.style.color = s.fg;
+      el.style.opacity = '1';
+      clearTimeout(el._hideTimer);
+      if (mode === 'saved') {
+        el._hideTimer = setTimeout(() => {
+          el.style.opacity = '0';
+        }, 2200);
+      }
+    }
+
+    // Base64 foto produk bisa membengkakkan state; simpan versi tanpa foto bila terlalu besar.
+    function stripEmbeddedImages(payload) {
+      const clone = JSON.parse(JSON.stringify(payload));
+      (clone.products || []).forEach((p) => {
+        if (typeof p.image === 'string' && p.image.startsWith('data:')) p.image = '';
+      });
+      return clone;
+    }
+
+    function applyRemoteState(remote) {
+      const localAuth = state.auth;
+      const init = createInitialState();
+      state = { ...init, ...remote, auth: { ...init.auth, ...localAuth } };
+      try {
+        localStorage.setItem('warung_cemara_v3_state', JSON.stringify(state));
+      } catch (e) {
+        console.warn('Local cache skipped:', e);
+      }
+    }
+
+    async function pushCloudState() {
+      if (!cloudReady) return;
+      try {
+        clearTimeout(cloudTimer);
+        setCloudBadge('saving');
+        let payload = state;
+        if (JSON.stringify(payload).length > 850000) payload = stripEmbeddedImages(payload);
+        const res = await fetch('/api/state', {
+          method: 'PUT',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ state: payload, baseRevision: cloudRevision }),
+        });
+        const data = await res.json().catch(() => ({}));
+        if (!res.ok || !data.ok) throw new Error(data.error || 'HTTP ' + res.status);
+        cloudRevision = data.revision || cloudRevision;
+        cloudDirty = false;
+        setCloudBadge('saved');
+      } catch (err) {
+        console.warn('Cloud save failed:', err);
+        cloudDirty = true;
+        setCloudBadge('offline');
+      }
+    }
+
+    function scheduleCloudSave() {
+      if (!cloudReady || cloudApplying) return;
+      cloudDirty = true;
+      clearTimeout(cloudTimer);
+      cloudTimer = setTimeout(pushCloudState, 700);
+    }
+
+    async function pullCloudState(silent) {
+      if (!cloudReady || cloudDirty) return;
+      try {
+        const res = await fetch('/api/state', { headers: { Accept: 'application/json' } });
+        const data = await res.json().catch(() => ({}));
+        if (!res.ok || !data.ok) throw new Error(data.error || 'HTTP ' + res.status);
+        if (!data.state) return;
+        if (data.revision && data.revision <= cloudRevision) return;
+        cloudApplying = true;
+        applyRemoteState(data.state);
+        cloudRevision = data.revision || cloudRevision;
+        cloudApplying = false;
+        renderAll();
+        if (!silent) showToast('Data terbaru dimuat dari database cloud.', 'success');
+        setCloudBadge('saved');
+      } catch (err) {
+        console.warn('Cloud load failed:', err);
+        if (!silent) setCloudBadge('offline');
+      }
+    }
+
+    async function initCloudState() {
+      setCloudBadge('loading');
+      try {
+        const res = await fetch('/api/state', { headers: { Accept: 'application/json' } });
+        const data = await res.json().catch(() => ({}));
+        if (!res.ok || !data.ok) throw new Error(data.error || 'HTTP ' + res.status);
+        cloudReady = true;
+        if (data.state) {
+          applyRemoteState(data.state);
+          cloudRevision = data.revision || 0;
+          renderAll();
+          setCloudBadge('saved');
+        } else {
+          await pushCloudState();
+        }
+      } catch (err) {
+        console.warn('Cloud init failed:', err);
+        cloudReady = false;
+        setCloudBadge('offline');
+      }
+      setInterval(() => {
+        if (!cloudDirty) pullCloudState(true);
+      }, 20000);
+      document.addEventListener('visibilitychange', () => {
+        if (document.visibilityState === 'visible' && !cloudDirty) pullCloudState(true);
+      });
+      window.addEventListener('online', () => {
+        if (cloudDirty) pushCloudState();
+      });
     }
 
     function resetDemoData() {
       localStorage.removeItem('warung_cemara_v3_state');
       state = createInitialState();
+      saveState();
       renderAll();
       showToast('Data Warung Sayur Cemara berhasil direset.', 'success');
     }
@@ -4682,6 +4824,9 @@
           setTimeout(() => loader.remove(), 450);
         }, 1250);
       }
+
+      // Muat data dari Cloudflare D1 lalu aktifkan sinkronisasi otomatis
+      initCloudState();
     });
   </script>
 </body>
