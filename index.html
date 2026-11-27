@@ -1361,8 +1361,8 @@
     <div class="bg-white rounded-3xl max-w-md w-full p-6 border border-borderSoft shadow-2xl space-y-4">
       <div class="flex items-center justify-between border-b border-borderSoft pb-3">
         <div>
-          <h3 class="font-editorial text-lg font-bold text-deepGreenSwatch">Ganti Foto Produk Katalog</h3>
-          <p id="edit-photo-prod-name" class="text-xs text-stone-500">Unggah foto dari galeri/komputer atau tempel tautan gambar</p>
+          <h3 class="font-editorial text-lg font-bold text-deepGreenSwatch">Edit Katalog Produk (Staf)</h3>
+          <p id="edit-photo-prod-name" class="text-xs text-stone-500">Ubah foto dan deskripsi yang tampil di katalog konsumen</p>
         </div>
         <button type="button" onclick="closeEditPhotoModal()" class="p-1.5 rounded-xl hover:bg-surfaceSoft text-stone-500 cursor-pointer">✕</button>
       </div>
@@ -1393,6 +1393,18 @@
             class="w-full rounded-xl border border-borderSoft bg-surfaceSoft px-3 py-2 text-xs focus:border-leafSwatch focus:bg-white focus:outline-none"
           />
         </div>
+
+        <div>
+          <label class="block font-semibold text-stone-700 mb-1">3. Deskripsi Produk untuk Katalog</label>
+          <textarea
+            id="edit-photo-desc-input"
+            rows="3"
+            maxlength="400"
+            placeholder="Contoh: Saus tiram premium, gurih dan praktis untuk masakan harian."
+            class="w-full rounded-xl border border-borderSoft bg-surfaceSoft px-3 py-2 text-xs focus:border-leafSwatch focus:bg-white focus:outline-none resize-y"
+          ></textarea>
+          <p class="text-[10px] text-stone-400 mt-1">Deskripsi ini tampil di halaman detail produk konsumen.</p>
+        </div>
       </div>
 
       <div class="flex items-center gap-2 pt-2">
@@ -1400,7 +1412,7 @@
           Batal
         </button>
         <button type="button" onclick="saveEditedProductPhoto()" class="flex-1 py-2.5 rounded-2xl bg-deepGreenSwatch hover:bg-leafSwatch text-white text-xs font-bold cursor-pointer">
-          Simpan Foto Produk
+          Simpan Perubahan
         </button>
       </div>
     </div>
@@ -2542,8 +2554,11 @@
 
     function applyRemoteState(remote) {
       const localAuth = state.auth;
+      const localRole = state.currentRole;
       const init = createInitialState();
       state = { ...init, ...remote, auth: { ...init.auth, ...localAuth } };
+      // Peran & status login tetap milik perangkat ini, tidak ditimpa data cloud.
+      state.currentRole = localRole;
       try {
         localStorage.setItem('warung_cemara_v3_state', JSON.stringify(state));
       } catch (e) {
@@ -2558,6 +2573,10 @@
         setCloudBadge('saving');
         let payload = state;
         if (JSON.stringify(payload).length > 850000) payload = stripEmbeddedImages(payload);
+        // Jangan simpan status login/peran ke database agar tidak berpindah antar perangkat.
+        payload = { ...payload };
+        delete payload.auth;
+        delete payload.currentRole;
         const res = await fetch('/api/state', {
           method: 'PUT',
           headers: { 'Content-Type': 'application/json' },
@@ -2964,16 +2983,17 @@
           ? `<span class="absolute bottom-2.5 left-2.5 px-2.5 py-0.5 rounded-full bg-leafSwatch text-white text-[10px] font-bold">Favorit</span>`
           : '';
 
+      // Tombol edit katalog hanya muncul di POV Staf (POS), bukan di tampilan konsumen.
       const editPhotoBtn = isPos
-        ? ''
-        : `<button
+        ? `<button
             type="button"
             onclick="event.stopPropagation(); openEditPhotoModal('${p.id}')"
-            title="Edit / Ganti Foto Produk"
-            class="absolute bottom-2.5 right-2.5 px-2.5 py-1 rounded-xl bg-black/65 hover:bg-deepGreenSwatch text-white text-[10px] font-bold backdrop-blur-xs transition cursor-pointer flex items-center gap-1"
+            title="Edit foto & deskripsi produk (Staf)"
+            class="absolute bottom-2.5 right-2.5 px-2.5 py-1 rounded-xl bg-black/70 hover:bg-deepGreenSwatch text-white text-[10px] font-bold backdrop-blur-xs transition cursor-pointer flex items-center gap-1"
           >
-            <span>✎ Edit Foto</span>
-          </button>`;
+            <span>✎ Edit</span>
+          </button>`
+        : '';
 
       const clickDetailAttr = isPos ? '' : `onclick="openProductDetailModal('${p.id}')"`;
       const actionFn = isPos ? `addToPosCart('${p.id}')` : `addToConsumerCart('${p.id}')`;
@@ -3044,6 +3064,11 @@
 
     // Custom Product Photo Editor Functions
     function openEditPhotoModal(productId) {
+      // Edit katalog (foto & deskripsi) hanya untuk POV Staf/Owner, bukan konsumen.
+      if (state.currentRole === 'konsumen' || (!state.auth.stafUnlocked && !state.auth.ownerUnlocked)) {
+        showToast('Edit katalog hanya tersedia di tampilan Staf (POS).', 'error');
+        return;
+      }
       const p = state.products.find((item) => item.id === productId);
       if (!p) return;
       editingPhotoProductId = productId;
@@ -3052,6 +3077,8 @@
       document.getElementById('edit-photo-preview-img').src = p.image;
       document.getElementById('edit-photo-file-input').value = '';
       document.getElementById('edit-photo-url-input').value = '';
+      const descEl = document.getElementById('edit-photo-desc-input');
+      if (descEl) descEl.value = p.description || '';
       document.getElementById('edit-photo-modal').classList.remove('hidden');
     }
 
@@ -3080,16 +3107,15 @@
     }
 
     function saveEditedProductPhoto() {
-      if (!editingPhotoProductId || !pendingEditedPhotoData) {
-        showToast('Pilih foto terlebih dahulu.', 'error');
-        return;
-      }
+      if (!editingPhotoProductId) return;
       const p = state.products.find((item) => item.id === editingPhotoProductId);
+      const descEl = document.getElementById('edit-photo-desc-input');
       if (p) {
-        p.image = pendingEditedPhotoData;
+        if (pendingEditedPhotoData) p.image = pendingEditedPhotoData;
+        p.description = (descEl?.value || '').trim();
         saveState();
         renderAll();
-        showToast(`Foto produk ${p.name} berhasil diperbarui!`, 'success');
+        showToast(`Foto & deskripsi produk ${p.name} berhasil diperbarui!`, 'success');
       }
       closeEditPhotoModal();
     }
@@ -3339,6 +3365,12 @@
       const priceInfo = getDisplayPriceInfo(p);
       const defaultQty = p.pricingType === 'gram' ? p.minGram || 100 : (p.packOptions?.[0]?.qty || 1);
       const unitLabel = p.pricingType === 'gram' ? 'gr' : p.unitLabel || 'pcs';
+      const defaultDescription =
+        p.pricingType === 'gram'
+          ? `Pembelian online minimal ${p.minGram} gr atau pilih paket kemasan praktis.`
+          : `Kualitas terjaga, siap masak dan siap simpan.`;
+      const productDescription =
+        (p.description || '').trim() || `Pilihan segar Warung Sayur Cemara setiap hari. ${defaultDescription}`;
 
       const packChips = (p.packOptions || [])
         .map(
@@ -3358,13 +3390,6 @@
               onerror="this.onerror=null;this.src='https://placehold.co/500x500/EEF4E4/1E4D16?text=${encodeURIComponent(p.name)}'"
               class="w-full h-60 md:h-64 object-cover rounded-2xl"
             />
-            <button
-              type="button"
-              onclick="closeProductDetailModal(); openEditPhotoModal('${p.id}')"
-              class="w-full py-2 rounded-xl border border-borderSoft bg-white hover:border-deepGreenSwatch text-xs font-bold text-deepGreenSwatch cursor-pointer"
-            >
-              ✎ Edit / Ganti Foto Produk Ini
-            </button>
             ${
               p.onSalePct > 0
                 ? `<span class="absolute top-7 left-7 px-3 py-1 rounded-full bg-lemonSwatch text-deepGreenSwatch text-xs font-extrabold">ON SALE -${p.onSalePct}%</span>`
@@ -3388,13 +3413,7 @@
                 </div>
               </div>
 
-              <p class="text-xs text-stone-600 leading-relaxed pt-1">
-                Pilihan segar Warung Sayur Cemara setiap hari. ${
-                  p.pricingType === 'gram'
-                    ? `Pembelian online minimal ${p.minGram} gr atau pilih paket kemasan praktis.`
-                    : `Kualitas terjaga, siap masak dan siap simpan.`
-                }
-              </p>
+              <p class="text-xs text-stone-600 leading-relaxed pt-1">${productDescription}</p>
 
               ${packChips ? `<div class="pt-1 flex flex-wrap gap-1.5">${packChips}</div>` : ''}
             </div>
