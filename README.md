@@ -33,4 +33,10 @@ Berdasarkan hasil observasi dan wawancara singkat dengan pihak Warung Sayur Cema
 * **Pemesanan Online & Penjadwalan *Self Pick-up*:** Pelanggan dapat memesan langsung melalui *website* dan mengambil pesanan sendiri di toko (*Self Pick-up*), dilengkapi fitur pemilihan slot waktu pengambilan agar pesanan sudah disiapkan sebelumnya tanpa perlu mengantre lama (tanpa layanan *delivery* maupun kurir pihak ketiga).
 * **Pencatatan Keuangan Internal:** Rekapitulasi otomatis antara pendapatan kotor, HPP (Harga Pokok Penjualan), pengeluaran operasional/kulakan, hingga laba bersih harian.
 
-<!-- lanjut di sini -->
+##### B. Modul SCM (Supply Chain Management & Inventaris) 
+
+* **Dynamic Pricing Engine:** Pemilik usaha cukup menginput harga modal pembelian per kilogram atau per dus beserta kuantitasnya. Sistem akan otomatis mengalkulasi harga jual eceran di kasir maupun website berdasarkan persentase margin profit yang telah ditetapkan.
+* **Manajemen Stok FIFO (*First-In, First-Out*):** Sistem mencatat tanggal barang pertama kali masuk (batch tracking) untuk memastikan stok lama terjual lebih dulu.
+* **Smart Perishable Alert & Flash Sale:** Sistem memberikan notifikasi otomatis berdasarkan umur simpan barang. Khusus produk segar (sayur/buah) yang mulai layu di sore hari (masih layak konsumsi namun tidak tahan hingga besok), sistem memicu notifikasi sekaligus opsi one-click diskon (underprice/flash sale) untuk menekan kerugian barang busuk (waste).
+* **Kategorisasi & Manajemen Barcode Dinamis:** Pengelompokan produk terstruktur (Sayur, Bumbu, Sembako/Minyak, dll.) yang dilengkapi fitur Update Product/Barcode untuk mengakomodasi barang grosir yang sering berganti kemasan atau nomor barcode dari pemasok.
+
