@@ -718,29 +718,6 @@
             </button>
           </div>
 
-          <div class="grid grid-cols-3 gap-1.5 bg-surfaceSoft p-1 rounded-xl border border-borderSoft text-xs font-semibold">
-            <button type="button" id="pos-mode-offline" onclick="setPosChannel('Kasir Toko')" class="py-1.5 rounded-lg transition cursor-pointer">
-              Di Toko
-            </button>
-            <button type="button" id="pos-mode-pickup" onclick="setPosChannel('Ambil di Toko')" class="py-1.5 rounded-lg transition cursor-pointer">
-              Pick-Up
-            </button>
-            <button type="button" id="pos-mode-delivery" onclick="setPosChannel('Delivery')" class="py-1.5 rounded-lg transition cursor-pointer">
-              Delivery
-            </button>
-          </div>
-
-          <div>
-            <label class="block text-[11px] font-semibold text-stone-600 mb-1">Pelanggan</label>
-            <input
-              type="text"
-              id="pos-customer-input"
-              value="Pelanggan Walk-In"
-              placeholder="Nama pelanggan..."
-              class="w-full rounded-xl border border-borderSoft bg-surfaceSoft px-3 py-2 text-xs font-medium text-stone-800"
-            />
-          </div>
-
           <div id="pos-cart-items" class="max-h-56 overflow-y-auto divide-y divide-borderSoft/60 pr-1"></div>
 
           <div class="border-t border-borderSoft pt-3 space-y-1.5 text-xs">
@@ -760,10 +737,9 @@
 
           <div>
             <label class="block text-[11px] font-semibold text-stone-600 mb-1.5">Metode Pembayaran</label>
-            <div class="grid grid-cols-3 gap-1.5 text-xs font-semibold">
+            <div class="grid grid-cols-2 gap-1.5 text-xs font-semibold">
               <button type="button" id="pos-pay-Tunai" onclick="setPosPayment('Tunai')" class="py-2 rounded-xl border transition cursor-pointer">Tunai</button>
               <button type="button" id="pos-pay-QRIS" onclick="setPosPayment('QRIS')" class="py-2 rounded-xl border transition cursor-pointer">QRIS Warung</button>
-              <button type="button" id="pos-pay-Transfer" onclick="setPosPayment('Transfer')" class="py-2 rounded-xl border transition cursor-pointer">Transfer</button>
             </div>
           </div>
 
@@ -785,7 +761,7 @@
   <div id="view-owner" class="hidden flex-1 bg-surfaceSoft">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 py-5 space-y-5">
       <!-- Horizontal Panel Kendali Pemilik Bar -->
-      <div class="bg-white rounded-3xl border border-borderSoft p-4 flex flex-col md:flex-row md:items-center justify-between gap-3">
+      <div class="bg-white rounded-3xl border border-borderSoft p-4 flex flex-col items-start gap-3">
         <div class="px-1">
           <div class="text-[11px] font-bold uppercase tracking-wider text-leafSwatch">Panel Kendali Pemilik</div>
           <div class="font-editorial text-xl font-bold text-deepGreenSwatch">Warung Sayur Cemara</div>
@@ -826,6 +802,18 @@
               <path stroke-linecap="round" stroke-linejoin="round" d="M9 12h3.75M9 15h3.75M9 18h3.75m3 .75H18a2.25 2.25 0 002.25-2.25V6.108c0-1.135-.845-2.098-1.976-2.192a48.424 48.424 0 00-1.123-.08m-5.801 0c-.065.21-.1.433-.1.664 0 .414.336.75.75.75h4.5a.75.75 0 00.75-.75 2.25 2.25 0 00-.1-.664m-5.8 0A2.251 2.251 0 0113.5 2.25H15c1.012 0 1.867.668 2.15 1.586m-5.8 0c-.376.023-.75.05-1.124.08C9.095 4.01 8.25 4.973 8.25 6.108V8.25m0 0H4.875c-.621 0-1.125.504-1.125 1.125v11.25c0 .621.504 1.125 1.125 1.125h9.75c.621 0 1.125-.504 1.125-1.125V9.375c0-.621-.504-1.125-1.125-1.125H8.25z" />
             </svg>
             <span>Riwayat Transaksi (Transaction ID)</span>
+          </button>
+
+          <button
+            type="button"
+            id="owner-nav-pengaturan"
+            onclick="setOwnerSection('pengaturan')"
+            class="inline-flex items-center gap-2 px-4 py-2.5 rounded-2xl text-xs font-bold transition cursor-pointer"
+          >
+            <svg class="w-4 h-4 shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 5.25a3 3 0 013 3m3 0a6 6 0 01-7.029 5.912c-.563-.097-1.159.026-1.563.43L10.5 17.25H8.25v2.25H6v2.25H2.25v-2.818c0-.597.237-1.17.659-1.591l6.499-6.499c.404-.404.527-1 .43-1.563A6 6 0 1121.75 8.25z" />
+            </svg>
+            <span>Pengaturan Akses & Password</span>
           </button>
         </div>
       </div>
@@ -1122,6 +1110,58 @@
               </table>
             </div>
           </section>
+
+          <!-- SECTION 4: PENGATURAN AKSES & PASSWORD -->
+          <section id="owner-sec-pengaturan" class="hidden space-y-5">
+            <div>
+              <h1 class="font-editorial text-2xl sm:text-3xl font-bold text-deepGreenSwatch">Pengaturan Akses & Password</h1>
+              <p class="text-xs text-stone-500">
+                Kustomisasi kata sandi Staf (POS) dan Owner. Kata sandi tidak lagi ditampilkan di halaman login.
+              </p>
+            </div>
+
+            <div class="bg-white rounded-2xl border border-borderSoft p-5 space-y-4 max-w-xl">
+              <div>
+                <label class="block text-xs font-semibold text-stone-700 mb-1.5">Password Staf (POS / Admin)</label>
+                <input
+                  type="text"
+                  id="owner-set-staf-pass"
+                  autocomplete="off"
+                  placeholder="Minimal 4 karakter"
+                  class="w-full rounded-xl border border-borderSoft bg-surfaceSoft px-3 py-2 text-xs font-tabular focus:border-leafSwatch focus:bg-white focus:outline-none"
+                />
+              </div>
+              <div>
+                <label class="block text-xs font-semibold text-stone-700 mb-1.5">Password Owner</label>
+                <input
+                  type="text"
+                  id="owner-set-owner-pass"
+                  autocomplete="off"
+                  placeholder="Minimal 4 karakter"
+                  class="w-full rounded-xl border border-borderSoft bg-surfaceSoft px-3 py-2 text-xs font-tabular focus:border-leafSwatch focus:bg-white focus:outline-none"
+                />
+              </div>
+              <div class="flex flex-wrap items-center gap-2 pt-1">
+                <button
+                  type="button"
+                  onclick="saveAccessPasswords()"
+                  class="px-4 py-2.5 rounded-xl bg-deepGreenSwatch hover:bg-leafSwatch text-white text-xs font-bold transition cursor-pointer"
+                >
+                  Simpan Password
+                </button>
+                <button
+                  type="button"
+                  onclick="resetAccessPasswords()"
+                  class="px-4 py-2.5 rounded-xl border border-borderSoft bg-white hover:bg-surfaceSoft text-stone-700 text-xs font-bold transition cursor-pointer"
+                >
+                  Kembalikan Default
+                </button>
+              </div>
+              <p class="text-[11px] text-stone-500 leading-relaxed">
+                Minimal 4 karakter. Password disimpan bersama data warung dan tersinkron ke cloud, jadi berlaku di semua perangkat.
+              </p>
+            </div>
+          </section>
         </div>
     </div>
   </div>
@@ -1179,9 +1219,6 @@
             <label class="block text-xs font-semibold text-stone-700 mb-1">Password Akses <span id="auth-role-hint" class="text-leafSwatch font-normal"></span></label>
             <input type="password" id="auth-password-input" placeholder="Masukkan kata sandi..." class="w-full rounded-xl border border-borderSoft bg-surfaceSoft px-3 py-2 text-xs font-tabular" />
           </div>
-          <p class="text-[11px] text-stone-500 bg-surfaceSoft p-2.5 rounded-xl border border-borderSoft">
-            Info akses cepat: Password Staf = <strong class="font-tabular text-deepGreenSwatch">staf123</strong> · Password Owner = <strong class="font-tabular text-deepGreenSwatch">owner123</strong> (juga mendukung URL <code>?role=staf</code> atau <code>?role=owner</code>).
-          </p>
         </div>
 
         <button type="submit" class="w-full py-3 rounded-2xl bg-deepGreenSwatch hover:bg-leafSwatch text-white text-xs font-bold shadow-sm transition cursor-pointer">
@@ -1478,8 +1515,8 @@
         activeCategory: 'all',
         kasirTab: 'pos',
         ownerSection: 'ringkasan',
-        posChannel: 'Kasir Toko',
         posPayment: 'Tunai',
+        passwords: { staf: 'staf123', owner: 'owner123' },
         qrisProofName: '',
         uploadedQuickPhoto: '',
         auth: {
@@ -2489,6 +2526,7 @@
             ...init,
             ...parsed,
             auth: { ...init.auth, ...(parsed.auth || {}) },
+            passwords: { ...init.passwords, ...(parsed.passwords || {}) },
           };
         }
       } catch (e) {
@@ -2556,7 +2594,12 @@
       const localAuth = state.auth;
       const localRole = state.currentRole;
       const init = createInitialState();
-      state = { ...init, ...remote, auth: { ...init.auth, ...localAuth } };
+      state = {
+        ...init,
+        ...remote,
+        auth: { ...init.auth, ...localAuth },
+        passwords: { ...init.passwords, ...(remote.passwords || {}) },
+      };
       // Peran & status login tetap milik perangkat ini, tidak ditimpa data cloud.
       state.currentRole = localRole;
       try {
@@ -2867,8 +2910,8 @@
 
       const pw = (document.getElementById('auth-password-input')?.value || '').trim();
       if (role === 'kasir') {
-        if (pw !== 'staf123' && pw !== 'admin123') {
-          showToast('Password Staf salah. Gunakan: staf123', 'error');
+        if (pw !== (state.passwords?.staf || '')) {
+          showToast('Password Staf salah.', 'error');
           return;
         }
         state.auth.stafUnlocked = true;
@@ -2880,8 +2923,8 @@
       }
 
       if (role === 'owner') {
-        if (pw !== 'owner123') {
-          showToast('Password Owner salah. Gunakan: owner123', 'error');
+        if (pw !== (state.passwords?.owner || '')) {
+          showToast('Password Owner salah.', 'error');
           return;
         }
         state.auth.ownerUnlocked = true;
@@ -3684,12 +3727,8 @@
       renderKasirWorkspace();
     }
 
-    function setPosChannel(ch) {
-      state.posChannel = ch;
-      renderKasirCart();
-    }
-
     function setPosPayment(pay) {
+      if (pay !== 'Tunai' && pay !== 'QRIS') return;
       state.posPayment = pay;
       renderKasirCart();
     }
@@ -4049,22 +4088,9 @@
     }
 
     function renderKasirCart() {
-      const modeMap = {
-        'Kasir Toko': 'pos-mode-offline',
-        'Ambil di Toko': 'pos-mode-pickup',
-        'Delivery': 'pos-mode-delivery',
-      };
-      Object.entries(modeMap).forEach(([ch, btnId]) => {
-        const el = document.getElementById(btnId);
-        if (el) {
-          el.className =
-            state.posChannel === ch
-              ? 'py-1.5 rounded-lg bg-deepGreenSwatch text-white transition cursor-pointer'
-              : 'py-1.5 rounded-lg text-stone-600 hover:text-stone-900 transition cursor-pointer';
-        }
-      });
+      if (state.posPayment !== 'Tunai' && state.posPayment !== 'QRIS') state.posPayment = 'Tunai';
 
-      ['Tunai', 'QRIS', 'Transfer'].forEach((pm) => {
+      ['Tunai', 'QRIS'].forEach((pm) => {
         const el = document.getElementById(`pos-pay-${pm}`);
         if (el) {
           el.className =
@@ -4161,12 +4187,12 @@
       const order = {
         id: txId,
         date: getFormattedDateTime(),
-        customerName: 'Transaksi Kasir POS',
-        channel: state.posChannel,
-        delivery: state.posChannel,
+        customerName: 'Pelanggan Walk-In',
+        channel: 'Kasir Toko',
+        delivery: 'Kasir Toko',
         timeslot: '',
         address: '',
-        payment: state.posPayment,
+        payment: state.posPayment === 'QRIS' ? 'QRIS' : 'Tunai',
         proofFile: '',
         status: 'Lunas',
         validDays: 90,
@@ -4328,6 +4354,25 @@
       renderOwnerDashboard();
     }
 
+    function saveAccessPasswords() {
+      const staf = (document.getElementById('owner-set-staf-pass')?.value || '').trim();
+      const owner = (document.getElementById('owner-set-owner-pass')?.value || '').trim();
+      if (staf.length < 4 || owner.length < 4) {
+        showToast('Password minimal 4 karakter.', 'error');
+        return;
+      }
+      state.passwords = { staf, owner };
+      saveState();
+      showToast('Password Staf & Owner berhasil diperbarui.', 'success');
+    }
+
+    function resetAccessPasswords() {
+      state.passwords = { staf: 'staf123', owner: 'owner123' };
+      saveState();
+      renderOwnerDashboard();
+      showToast('Password dikembalikan ke pengaturan default.', 'success');
+    }
+
     function openAllSalesBreakdownModal() {
       const tbody = document.getElementById('all-sales-breakdown-tbody');
       if (tbody) {
@@ -4364,7 +4409,7 @@
     }
 
     function renderOwnerDashboard() {
-      const sections = ['ringkasan', 'produk', 'riwayat'];
+      const sections = ['ringkasan', 'produk', 'riwayat', 'pengaturan'];
       sections.forEach((s) => {
         const nav = document.getElementById(`owner-nav-${s}`);
         const panel = document.getElementById(`owner-sec-${s}`);
@@ -4376,6 +4421,14 @@
         }
         if (panel) panel.classList.toggle('hidden', s !== state.ownerSection);
       });
+
+      // Isi form pengaturan password saat tab dibuka
+      if (state.ownerSection === 'pengaturan') {
+        const stafPassEl = document.getElementById('owner-set-staf-pass');
+        const ownerPassEl = document.getElementById('owner-set-owner-pass');
+        if (stafPassEl) stafPassEl.value = state.passwords?.staf || '';
+        if (ownerPassEl) ownerPassEl.value = state.passwords?.owner || '';
+      }
 
       // Render Riwayat Transaksi (Transaction History) Table
       const txTbody = document.getElementById('owner-tx-history-tbody');
@@ -4824,12 +4877,23 @@
       const params = new URLSearchParams(window.location.search);
       const urlRole = (params.get('role') || '').toLowerCase();
 
-      if (urlRole === 'staf' || urlRole === 'admin' || urlRole === 'kasir') {
-        state.auth.stafUnlocked = true;
-        applyRoleView('kasir');
+      const wantsStaf = urlRole === 'staf' || urlRole === 'admin' || urlRole === 'kasir';
+
+      if (wantsStaf) {
+        // Akses cepat via URL tetap perlu password (kecuali sesi ini sudah login).
+        if (state.auth.stafUnlocked) {
+          applyRoleView('kasir');
+        } else {
+          applyRoleView('konsumen');
+          openLoginModal('kasir');
+        }
       } else if (urlRole === 'owner') {
-        state.auth.ownerUnlocked = true;
-        applyRoleView('owner');
+        if (state.auth.ownerUnlocked) {
+          applyRoleView('owner');
+        } else {
+          applyRoleView('konsumen');
+          openLoginModal('owner');
+        }
       } else {
         // Default: Consumer enters directly without needing login first
         applyRoleView('konsumen');
