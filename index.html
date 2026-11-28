@@ -1102,7 +1102,7 @@
                   <tr class="border-b border-borderSoft text-stone-500">
                     <th class="py-2.5 pr-3">Transaction ID</th>
                     <th class="py-2.5 px-3">Waktu Transaksi</th>
-                    <th class="py-2.5 px-3">Kanal / Pelanggan</th>
+                    <th class="py-2.5 px-3">Kanal</th>
                     <th class="py-2.5 px-3">Metode</th>
                     <th class="py-2.5 px-3">Rincian Item</th>
                     <th class="py-2.5 px-3 text-right">Total</th>
@@ -1208,10 +1208,6 @@
 
       <form onsubmit="handleRoleLoginSubmit(event)" class="space-y-3">
         <div id="auth-cust-fields" class="space-y-2.5">
-          <div>
-            <label class="block text-xs font-semibold text-stone-700 mb-1">Nama Pembeli</label>
-            <input type="text" id="auth-cust-name" value="Alya Putri" class="w-full rounded-xl border border-borderSoft bg-surfaceSoft px-3 py-2 text-xs font-semibold" />
-          </div>
           <div>
             <label class="block text-xs font-semibold text-stone-700 mb-1">No. WhatsApp / HP</label>
             <input type="text" id="auth-cust-phone" value="0812-3456-7890" class="w-full rounded-xl border border-borderSoft bg-surfaceSoft px-3 py-2 text-xs font-tabular" />
@@ -1525,7 +1521,6 @@
         uploadedQuickPhoto: '',
         auth: {
           customerLoggedIn: false,
-          customerName: 'Alya Putri',
           stafUnlocked: false,
           ownerUnlocked: false,
           pendingAction: null,
@@ -2472,13 +2467,12 @@
           {
             id: 'TRX-20261125-001',
             date: '25-11-2026 09:15:20',
-            customerName: 'Alya Putri',
             channel: 'Online',
             delivery: 'Ambil Sendiri di Toko',
             timeslot: 'Hari ini · 13:00 – 15:00 WIB',
             address: '',
             payment: 'QRIS',
-            proofFile: 'bukti-qris-alya.jpg',
+            proofFile: 'bukti-qris-online.jpg',
             status: 'Sedang Dipacking',
             validDays: 90,
             total: 24500,
@@ -2490,7 +2484,6 @@
           {
             id: 'TRX-20261125-002',
             date: '25-11-2026 14:22:10',
-            customerName: 'Transaksi Kasir POS',
             channel: 'Kasir Toko',
             delivery: 'Kasir Toko',
             timeslot: '',
@@ -2831,13 +2824,11 @@
       const authLabel = document.getElementById('top-auth-label');
       if (role === 'konsumen') {
         if (roleLabel) {
-          roleLabel.textContent = state.auth.customerLoggedIn
-            ? `Konsumen (${state.auth.customerName})`
-            : 'Konsumen (Tamu)';
+          roleLabel.textContent = state.auth.customerLoggedIn ? 'Konsumen' : 'Konsumen (Tamu)';
         }
         if (authLabel) {
           authLabel.textContent = state.auth.customerLoggedIn
-            ? `Halo, ${state.auth.customerName}`
+            ? 'Akun Konsumen Aktif'
             : 'Login Konsumen / Staf / Owner';
         }
       } else if (role === 'kasir') {
@@ -2895,13 +2886,11 @@
       const role = state.auth.selectedLoginRole || 'konsumen';
 
       if (role === 'konsumen') {
-        const name = (document.getElementById('auth-cust-name')?.value || '').trim() || 'Pelanggan Cemara';
         state.auth.customerLoggedIn = true;
-        state.auth.customerName = name;
         saveState();
         closeLoginModal();
         applyRoleView('konsumen');
-        showToast(`Selamat datang, ${name}! Anda sudah login sebagai Konsumen.`, 'success');
+        showToast('Anda sudah login sebagai Konsumen.', 'success');
 
         const pending = state.auth.pendingAction;
         state.auth.pendingAction = null;
@@ -3377,7 +3366,6 @@
       const newOrder = {
         id: txId,
         date: getFormattedDateTime(),
-        customerName: state.auth.customerName || 'Alya Putri',
         channel: 'Online',
         delivery,
         timeslot,
@@ -3624,9 +3612,6 @@
         })
         .join('');
 
-      const dpp = Math.round(ord.total / 1.11);
-      const ppn = ord.total - dpp;
-
       document.getElementById('receipt-body').innerHTML = `
         <div class="text-center space-y-1 pb-2">
           <div class="inline-block px-3 py-0.5 bg-deepGreenSwatch text-lemonSwatch font-sans font-extrabold text-sm tracking-tight rounded">
@@ -3674,15 +3659,14 @@
             <span>Kembalian</span>
             <span>0</span>
           </div>
-          <div class="flex justify-between text-[10px] text-stone-600 pt-0.5">
-            <span>PPN</span>
-            <span>DPP: ${fmtNum(dpp)} &nbsp; PPN: ${fmtNum(ppn)}</span>
+          <div class="flex justify-between">
+            <span>Kembalian</span>
+            <span>0</span>
           </div>
         </div>
 
         <div class="border-t border-dashed border-stone-400 mt-2.5 pt-2 text-center text-[10px] text-stone-700 space-y-1">
           <div>Tgl. ${ord.date} V.2026.11</div>
-          <div class="font-bold">PELANGGAN : ${String(ord.customerName || 'UMUM').toUpperCase()}</div>
           <div class="border-t border-b border-dashed border-stone-300 py-1 my-1 text-stone-600">
             METODE : ${String(ord.delivery || 'AMBIL DI TOKO').toUpperCase()}${ord.timeslot ? ` (${ord.timeslot})` : ''}
           </div>
@@ -3840,7 +3824,6 @@
           (o) =>
             !searchVal ||
             o.id.toLowerCase().includes(searchVal) ||
-            o.customerName.toLowerCase().includes(searchVal) ||
             o.items.some((it) => it.name.toLowerCase().includes(searchVal))
         );
 
@@ -3889,7 +3872,6 @@
                     <div class="space-y-0.5">
                       <div class="flex flex-wrap items-center gap-2">
                         <span class="font-tabular font-extrabold text-sm text-deepGreenSwatch">${ord.id}</span>
-                        <span class="text-xs font-bold text-stone-900">· ${ord.customerName}</span>
                         <span class="px-2 py-0.5 rounded-md bg-white border border-borderSoft text-[11px] font-semibold text-stone-700">
                           ${ord.delivery}${ord.timeslot ? ` (${ord.timeslot})` : ''}
                         </span>
@@ -3990,7 +3972,7 @@
                   (ord) => `
                 <div class="p-3.5 rounded-2xl border border-borderSoft bg-surfaceSoft flex flex-wrap items-center justify-between gap-3 text-xs">
                   <div>
-                    <div class="font-bold text-deepGreenSwatch font-tabular">${ord.id} · ${ord.customerName}</div>
+                    <div class="font-bold text-deepGreenSwatch font-tabular">${ord.id}</div>
                     <div class="text-stone-600">Total: <strong>${formatRp(ord.total)}</strong> · Bukti: <span class="font-tabular">${ord.proofFile}</span></div>
                   </div>
                   <button type="button" onclick="verifyOnlineOrder('${ord.id}')" class="px-3.5 py-2 rounded-xl bg-deepGreenSwatch hover:bg-leafSwatch text-white font-bold cursor-pointer">
@@ -4178,7 +4160,6 @@
       const order = {
         id: txId,
         date: getFormattedDateTime(),
-        customerName: 'Pelanggan Walk-In',
         channel: 'Kasir Toko',
         delivery: 'Kasir Toko',
         timeslot: '',
@@ -4430,7 +4411,6 @@
           const matchQ =
             !q ||
             o.id.toLowerCase().includes(q) ||
-            (o.customerName || '').toLowerCase().includes(q) ||
             (o.channel || '').toLowerCase().includes(q) ||
             o.items.some((it) => it.name.toLowerCase().includes(q));
           return isSuccess && matchQ;
@@ -4448,7 +4428,6 @@
                   <td class="py-3 px-3 font-tabular text-stone-600">${tx.date}</td>
                   <td class="py-3 px-3">
                     <span class="px-2 py-0.5 rounded-md bg-surfaceSoft border border-borderSoft font-semibold text-stone-800">${tx.channel}</span>
-                    <div class="text-[11px] text-stone-500 mt-0.5">${tx.customerName}</div>
                   </td>
                   <td class="py-3 px-3 font-semibold text-stone-700">${tx.payment}</td>
                   <td class="py-3 px-3 text-stone-600 max-w-xs truncate" title="${itemsSummary}">${itemsSummary}</td>
