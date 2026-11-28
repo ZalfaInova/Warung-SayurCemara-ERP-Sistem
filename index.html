@@ -120,10 +120,7 @@
       <div class="flex items-center gap-2">
         <span class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-lemonSwatch text-deepGreenSwatch font-bold">
           <span class="w-1.5 h-1.5 rounded-full bg-deepGreenSwatch"></span>
-          Warung Sayur Cemara · Terintegrasi
-        </span>
-        <span class="hidden md:inline text-limeSwatch/90">
-          Mode aktif: <strong id="active-role-label" class="text-white">Konsumen (Tamu)</strong>
+          Selamat Datang di Warung Sayur Cemara
         </span>
       </div>
 
@@ -166,14 +163,6 @@
             Owner
           </button>
         </div>
-
-        <button
-          type="button"
-          onclick="resetDemoData()"
-          class="hidden sm:inline-flex px-2.5 py-1 rounded-lg border border-white/20 hover:bg-white/10 text-stone-100 transition cursor-pointer"
-        >
-          Reset Data
-        </button>
       </div>
     </div>
   </div>
@@ -294,13 +283,13 @@
       <section class="rounded-3xl bg-gradient-to-br from-[#F4F8EC] via-white to-[#FEFBE8] border border-borderSoft p-6 sm:p-8 lg:p-10 grid grid-cols-1 lg:grid-cols-12 gap-6 items-center">
         <div class="lg:col-span-7 space-y-4">
           <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-limeSwatch/35 text-deepGreenSwatch text-xs font-bold">
-            Belanja Harian Praktis & Segar · Warung Sayur Cemara
+            Belanja Harian Praktis & Segar
           </span>
           <h1 class="font-editorial text-3xl sm:text-4xl lg:text-[42px] font-bold leading-[1.14] text-deepGreenSwatch">
-            Sayur Segar & Kebutuhan Dapur, Pas Takarannya.
+            Mau Masak Apa Hari Ini? Tinggal Klik Aja.
           </h1>
           <p class="text-sm sm:text-base text-stone-600 max-w-xl leading-relaxed">
-            Lihat katalog lengkap tanpa perlu login. Pilih sayuran segar, bumbu dapur kemasan/curah, sembako, frozen food, hingga lauk segar. Login cukup dilakukan saat checkout pesanan!
+            Gak sempat ke pasar pagi? Cek katalog lengkap kami kapan saja. Mulai dari sayur hijau segar, aneka bumbu, sembako, makanan beku, atau kemasan, sampai lauk siap masak ada semua. Login cukup saat checkout pesanan!
           </p>
           <div class="flex flex-wrap items-center gap-3 pt-1">
             <a href="#katalog-section" class="px-5 py-3 rounded-2xl bg-deepGreenSwatch hover:bg-leafSwatch text-white text-sm font-semibold shadow-sm transition">
@@ -367,7 +356,7 @@
             <div>
               <h2 class="font-editorial text-xl sm:text-2xl font-bold text-deepGreenSwatch">Harga Spesial Pilihan Hari Ini</h2>
               <p class="text-xs text-stone-700">
-                Penawaran hemat pilihan terbaik untuk melengkapi masakan rumahan Anda hari ini.
+                Bahan masakan segar dan kebutuhan dapur dengan potongan harga spesial.
               </p>
             </div>
           </div>
@@ -384,7 +373,7 @@
           <div>
             <h2 id="katalog-heading" class="font-editorial text-2xl font-bold text-deepGreenSwatch">Katalog Belanja</h2>
             <p class="text-xs text-stone-500">
-              Ketik berat gram bebas (mulai batas minimum) atau pilih pack/jumlah sesuai kebutuhan.
+              Atur jumlah satuan atau ketik berat (gram) mulai dari batas minimum.
             </p>
           </div>
           <label class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white border border-borderSoft text-xs font-semibold text-stone-700 cursor-pointer">
@@ -414,7 +403,7 @@
           </div>
           <span class="hidden sm:inline text-stone-300">|</span>
           <p class="text-xs sm:text-sm text-stone-600 font-medium">
-            Dari kebun ke meja makan — segar setiap hari, pas di kantong.
+            Bahan segar dan kebutuhan dapur pilihan harian untuk meja makan.
           </p>
         </div>
 
@@ -521,11 +510,11 @@
               <div>
                 <h3 class="font-editorial text-xl font-bold text-deepGreenSwatch">Pesanan Konsumen Masuk (Web)</h3>
                 <p class="text-xs text-stone-600 mt-1 leading-relaxed max-w-2xl">
-                  Pantau pesanan masuk dari website, klik <strong>Mulai Packing</strong> agar tanda <em>Sedang Dipacking</em> tampil di HP konsumen, lalu selesaikan saat siap diambil/dikirim.
+                  Pantau pesanan masuk dari website, klik <strong>Mulai Packing</strong> agar tanda <em>Sedang Dikemas</em> tampil di HP konsumen, lalu selesaikan saat siap diambil.
                 </p>
               </div>
               <span id="kasir-active-packing-pill" class="px-3 py-1 rounded-full bg-lemonSwatch text-deepGreenSwatch text-xs font-extrabold font-tabular">
-                0 Sedang Dipacking
+                0 Sedang Dikemas
               </span>
             </div>
 
@@ -816,6 +805,19 @@
             </svg>
             <span>Pengaturan Akses & Password</span>
           </button>
+
+          <div class="pt-2 mt-1 border-t border-borderSoft/70">
+            <button
+              type="button"
+              onclick="resetDemoData()"
+              class="w-full inline-flex items-center gap-2 px-3 py-2.5 rounded-xl text-left text-xs font-bold text-red-700 bg-red-50 hover:bg-red-100 border border-red-200 transition cursor-pointer"
+            >
+              <svg class="w-4 h-4 shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M14.74 9l-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 01-2.244 2.077H8.084a2.25 2.25 0 01-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 00-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 013.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 00-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 00-7.5 0" />
+              </svg>
+              <span>Reset Data</span>
+            </button>
+          </div>
         </div>
         </aside>
 
@@ -2699,6 +2701,7 @@
     }
 
     function resetDemoData() {
+      if (!confirm('Reset semua data warung ke kondisi awal? Tindakan ini akan menghapus data produk, transaksi, dan pesanan yang tersimpan.')) return;
       localStorage.removeItem('warung_cemara_v3_state');
       state = createInitialState();
       saveState();
@@ -3529,14 +3532,14 @@
         return `
           <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-lemonSwatch text-deepGreenSwatch font-extrabold ring-1 ring-deepGreenSwatch/30">
             <span class="w-2 h-2 rounded-full bg-deepGreenSwatch animate-ping"></span>
-            <span>Sedang Dipacking Staf</span>
+            <span>Sedang Dikemas</span>
           </span>
         `;
       }
       if (status === 'Siap Diambil / Dikirim' || status === 'Lunas') {
         return `
           <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-leafSwatch text-white font-bold">
-            <span>✓ ${status}</span>
+            <span>✓ ${status === 'Lunas' ? 'Lunas' : 'Siap Diambil'}</span>
           </span>
         `;
       }
@@ -3558,18 +3561,6 @@
       if (listEl) {
         listEl.innerHTML = state.orders
           .map((ord) => {
-            const packingBanner =
-              ord.status === 'Sedang Dipacking'
-                ? `<div class="mt-2 px-3 py-2 rounded-xl bg-lemonSwatch/50 border border-deepGreenSwatch/20 text-[11px] font-semibold text-deepGreenSwatch flex items-center gap-2">
-                    <span class="w-2 h-2 rounded-full bg-deepGreenSwatch animate-pulse shrink-0"></span>
-                    <span>Staf warung sedang menimbang & mengemas belanjaan Anda.</span>
-                  </div>`
-                : ord.status === 'Siap Diambil / Dikirim'
-                ? `<div class="mt-2 px-3 py-2 rounded-xl bg-[#F4F8EC] border border-leafSwatch/30 text-[11px] font-semibold text-deepGreenSwatch">
-                    Pesanan sudah selesai dipacking dan siap diambil / diserahkan ke kurir.
-                  </div>`
-                : '';
-
             return `
               <div class="p-4 rounded-2xl border ${
                 ord.status === 'Sedang Dipacking' ? 'border-deepGreenSwatch bg-amber-50/40' : 'border-borderSoft bg-surfaceSoft/60'
@@ -3578,7 +3569,6 @@
                   <div>
                     <div class="font-bold text-deepGreenSwatch font-tabular">${ord.id} · ${ord.date}</div>
                     <div class="text-stone-600 mt-0.5">${ord.delivery}${ord.timeslot ? ` (${ord.timeslot})` : ''} · <strong class="font-tabular">${formatRp(ord.total)}</strong></div>
-                    <div class="text-[11px] text-amber-800 font-semibold mt-0.5">Masa berlaku struk digital: 90 hari</div>
                   </div>
                   <div class="flex items-center gap-2">
                     ${getOrderStatusBadgeHtml(ord.status)}
@@ -3587,7 +3577,6 @@
                     </button>
                   </div>
                 </div>
-                ${packingBanner}
               </div>
             `;
           })
@@ -3760,7 +3749,7 @@
       showToast(
         nextStatus === 'Sedang Dipacking'
           ? `Pesanan ${ord.id} ditandai SEDANG DIPACKING.`
-          : `Pesanan ${ord.id} selesai dipacking & siap diambil/dikirim!`,
+          : `Pesanan ${ord.id} selesai dikemas & siap diambil!`,
         'success'
       );
     }
@@ -3805,7 +3794,7 @@
 
       const activePackingPill = document.getElementById('kasir-active-packing-pill');
       if (activePackingPill) {
-        activePackingPill.textContent = `${packingCount} Sedang Dipacking`;
+        activePackingPill.textContent = `${packingCount} Sedang Dikemas`;
       }
 
       const pendingCount = state.orders.filter((o) => o.status === 'Menunggu Verifikasi').length;
@@ -3876,7 +3865,7 @@
                   </span>`
                 : isReady
                 ? `<span class="inline-flex items-center gap-1 px-3 py-1 rounded-full bg-leafSwatch text-white text-xs font-bold">
-                    ✓ Siap Diambil / Dikirim
+                    ✓ Siap Diambil
                   </span>`
                 : `<span class="inline-flex items-center gap-1 px-3 py-1 rounded-full bg-white border border-borderSoft text-stone-700 text-xs font-bold">
                     Baru Masuk · Menunggu Packing
@@ -3888,7 +3877,7 @@
                   </button>`
                 : isReady
                 ? `<button type="button" onclick="updateOrderPackingStatus('${ord.id}', 'Sedang Dipacking')" class="px-3 py-1.5 rounded-xl border border-borderSoft bg-white hover:border-deepGreenSwatch text-stone-700 text-xs font-semibold cursor-pointer">
-                    Ubah ke Sedang Dipacking
+                    Ubah ke Sedang Dikemas
                   </button>`
                 : `<button type="button" onclick="updateOrderPackingStatus('${ord.id}', 'Sedang Dipacking')" class="px-4 py-2 rounded-xl bg-lemonSwatch hover:brightness-95 text-deepGreenSwatch text-xs font-extrabold shadow-xs transition cursor-pointer">
                     📦 Mulai Packing Sekarang
