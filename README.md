@@ -40,3 +40,63 @@ Berdasarkan hasil observasi dan wawancara singkat dengan pihak Warung Sayur Cema
 * **Smart Perishable Alert & Flash Sale:** Sistem memberikan notifikasi otomatis berdasarkan umur simpan barang. Khusus produk segar (sayur/buah) yang mulai layu di sore hari (masih layak konsumsi namun tidak tahan hingga besok), sistem memicu notifikasi sekaligus opsi one-click diskon (underprice/flash sale) untuk menekan kerugian barang busuk (waste).
 * **Kategorisasi & Manajemen Barcode Dinamis:** Pengelompokan produk terstruktur (Sayur, Bumbu, Sembako/Minyak, dll.) yang dilengkapi fitur Update Product/Barcode untuk mengakomodasi barang grosir yang sering berganti kemasan atau nomor barcode dari pemasok.
 
+---
+
+## Auto-Deploy & Kolaborasi Tim
+
+**Situs produksi:** https://warung-sayurcemara.pages.dev
+**Repository:** https://github.com/ZalfaInova/Warung-SayurCemara-ERP-Sistem
+**Branch produksi:** `main`
+
+Cloudflare Pages sudah terhubung langsung ke repository GitHub ini. Setiap `git push` ke branch `main` akan otomatis di-build dan di-deploy dalam hitungan detik. **Tidak perlu klik Deploy atau hosting ulang.**
+
+### Untuk kontributor (punya akses Write)
+
+1. Clone repository (sekali saja):
+   ```bash
+   git clone https://github.com/ZalfaInova/Warung-SayurCemara-ERP-Sistem.git
+   cd Warung-SayurCemara-ERP-Sistem
+   ```
+2. Selalu ambil perubahan terbaru sebelum mulai:
+   ```bash
+   git checkout main
+   git pull --ff-only origin main
+   ```
+3. Edit `index.html` (ini satu-satunya file halaman yang disajikan di situs produksi).
+4. Commit dan push:
+   ```bash
+   git add index.html
+   git commit -m "Deskripsi perubahan"
+   git push origin main
+   ```
+5. Tunggu ±10–60 detik, lalu refresh https://warung-sayurcemara.pages.dev.
+
+### Edit dari laptop lain tanpa install apa pun
+
+- **GitHub Web Editor:** buka repository di GitHub, tekan tombol `.` (titik) untuk membuka `github.dev`, edit `index.html`, lalu commit langsung ke `main`.
+- **GitHub Codespaces:** tombol **Code → Codespaces → Create codespace on main**, edit, lalu commit & push dari terminal Codespace.
+
+Keduanya tetap memicu auto-deploy Cloudflare setelah perubahan masuk ke `main`.
+
+### Menambah kontributor baru
+
+1. Buka repository GitHub → **Settings → Collaborators → Add people**.
+2. Pilih akun GitHub kontributor dan beri role **Write**.
+3. Kontributor langsung bisa push ke `main`; Cloudflare Pages otomatis men-deploy. Tidak ada pengaturan tambahan di Cloudflare.
+
+### Mengubah konten tanpa coding / deploy
+
+Produk, harga, stok, foto, deskripsi, diskon On Sale, dan password bisa diubah dari dashboard **Owner** atau **Staf** di website. Data disimpan di Cloudflare D1 dan tersinkron otomatis ke semua perangkat (autosave ±0,7 detik, polling ±20 detik), jadi tidak perlu mengubah kode atau deploy ulang.
+
+### Cek sintaks sebelum push (opsional)
+
+Jalankan perintah berikut dari root repository untuk memastikan JavaScript di `index.html` tidak error:
+
+```bash
+node scripts/check-inline-js.mjs
+```
+
+Jika muncul `OK inline script #1` dan `#2`, perubahan aman untuk di-push.
+
+> **Penting:** hanya `index.html` di root yang dipakai situs produksi. Folder `Code`, file `code.html`, `17 nov`, dan `17-nov` tidak memengaruhi situs live.
+
